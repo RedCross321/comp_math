@@ -35,11 +35,10 @@ error = 1e-4
 a = 0.8
 b = 1.8
 
-print(f(a) * f(b) >= 0)
 root = dichotomy_method(f, a, b, epsilon=error)
 
 print(f"\nНайденный корень: {root:.6f}")
-print(f"\nТочность: {error:.4f}")
+print(f"\nТочность: {error:.4f}, Интервал = [{a}, {b}]")
 print(f"Проверка: f({root:.6f}) = {f(root):.6f}")
 
 coo = (root, f(root))
