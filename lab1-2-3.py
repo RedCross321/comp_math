@@ -95,8 +95,8 @@ def dichotomy(f, a, b, epsilon=1e-6, max_iter=100):
 
 def dichotomy_setting():
     error = 1e-4
-    a = 9.2
-    b = 9.7
+    a = -0.1
+    b = 0.1
 
     print("\nДихотомия")
     print("=" * 60)
@@ -152,8 +152,8 @@ def golden(f, a, b, tol=1e-6, max_iter=100, find_min=True):
     return extremum_point, extremum_value
 
 def golden_setting():
-    a, b = 2.25, 3.15
-    find_min = True
+    a, b = 1, 1.3
+    find_min = False
     error = 1e-4
 
     print("\nЗолотое сечение")

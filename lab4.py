@@ -1,6 +1,8 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk
+from tkinter.messagebox import showinfo
 import numpy as np
+from tkinter import *
 
 root = tk.Tk()
 root.title("Решение СЛАУ 5x4")
@@ -43,7 +45,48 @@ for i, row in enumerate(default_values):
         entries[i][j].insert(0, str(value))
 
 def solve():
-    pass
+    new = []
+    for row in range(4):
+        for col in range(4):
+            new.append(float(entries[row][col].get()))
+
+    matrix = np.array(new).reshape(4,4)
+    n = matrix.shape[0]
+
+    # if matrix.shape[0] != matrix.shape[1]:
+    #     raise ValueError("Матрица не квадратная")
+
+    det = 1.0
+    for i in range(n):
+        max_row = i
+        for k in range(i + 1, n):
+            if abs(matrix[k, i]) > abs(matrix[max_row, i]):
+                max_row = k
+
+        if abs(matrix[max_row, i]) < 1e-12:
+            return 0.0
+        
+        if max_row != i:
+            matrix[[i, max_row]] = matrix[[max_row, i]]
+            det *= -1
+        
+        det *= matrix[i, i]
+
+        for k in range(i + 1, n):
+            factor = matrix[k, i] / matrix[i, i]
+            matrix[k, i:] -= factor * matrix[i, i:]
+
+    showinfo(title="Определитель матрицы", message=f"Определитель матрицы = {det}")
+
+    # print(matrix)
+def not_my():
+    new = []
+    for row in range(4):
+        for col in range(4):
+            new.append(float(entries[row][col].get()))
+
+    matrix = np.array(new).reshape(4,4)
+    print(np.linalg.det(matrix))
 
 button_frame = ttk.Frame(main_frame)
 button_frame.grid(row=6, column=0, columnspan=7, pady=20)
@@ -51,5 +94,15 @@ button_frame.grid(row=6, column=0, columnspan=7, pady=20)
 ttk.Button(button_frame, text="Решить", 
             command=solve).pack(side=tk.LEFT, padx=10)
 
+button_frame = ttk.Frame(main_frame)
+button_frame.grid(row=7, column=0, columnspan=7, pady=20)
 
+ttk.Button(button_frame, text="Решить", 
+            command=not_my).pack(side=tk.LEFT, padx=30)
+
+button_frame = ttk.Frame(main_frame)
+button_frame.grid(row=8, column=0, columnspan=7, pady=20)
+
+ttk.Button(button_frame, text="Закрыть", 
+            command=root.destroy).pack(side=tk.LEFT, padx=30)
 root.mainloop()
